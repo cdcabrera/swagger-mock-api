@@ -55,6 +55,8 @@ export default function(config) {
       if (method === 'options') {
         res.end();
         return;
+      } else if (method === 'delete' && !res.body) {
+        res.statusCode = 204;
       }
 
       let path = url.parse(req.url).pathname;

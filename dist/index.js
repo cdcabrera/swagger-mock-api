@@ -77,6 +77,8 @@ exports['default'] = function (config) {
       if (method === 'options') {
         res.end();
         return;
+      } else if (method === 'delete' && !res.body) {
+        res.statusCode = 204;
       }
 
       var path = _url2['default'].parse(req.url).pathname;
