@@ -75,7 +75,16 @@ var Parser = (function () {
                 return node['x-type-value'];
             }
 
-            if (node['x-chance-type']) return chance[node['x-chance-type']](node['x-type-options']);
+            if (node['x-chance-type']) {
+                var fn = node['x-chance-type'].split('.');
+                var value = chance[fn[0]](node['x-type-options']);
+
+                if (fn[1]) {
+                    return value[fn[1]];
+                }
+
+                return value;
+            }
 
             return this.getParser(node).parse(node);
         }

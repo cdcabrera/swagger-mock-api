@@ -40,8 +40,16 @@ export default class Parser {
             return node['x-type-value'];
         }
 
-        if (node['x-chance-type'])
-            return chance[node['x-chance-type']](node['x-type-options']);
+        if (node['x-chance-type']) {
+            let fn = node['x-chance-type'].split('.');
+            let value = chance[fn[0]](node['x-type-options']);
+
+            if (fn[1]) {
+              return value[fn[1]];
+            }
+
+            return value;
+        }
 
         return this.getParser(node).parse(node);
     }
