@@ -80,7 +80,12 @@ var Parser = (function () {
                 var value = chance[fn[0]](node['x-type-options']);
 
                 if (fn[1]) {
-                    return value[fn[1]];
+                    value = value[fn[1]];
+                }
+
+                // force string type
+                if (node['type'] === 'string') {
+                    value = '' + value;
                 }
 
                 return value;
