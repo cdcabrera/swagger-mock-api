@@ -40,7 +40,11 @@ function mock(schema, configMock) {
   return (0, _MockData2['default'])(schema, configMock);
 }
 
-function generateResponse(potentialResponses, configMock) {
+function generateResponse(responseCode, generateBody) {
+  return { statusCode: responseCode, body: generateBody() };
+}
+
+function generateResponseBuilder(potentialResponses, configMock) {
   var keys = _Object$keys(potentialResponses);
 
   keys.sort(); //use 200 example
@@ -58,7 +62,7 @@ function generateResponse(potentialResponses, configMock) {
       var responseSchema = potentialResponses[k];
       var responseCode = parseInt(k, 10);
       if (responseCode > 199 && responseCode < 300) {
-        return mock.bind(null, responseSchema, configMock);
+        return generateResponse.bind(null, responseCode, mock.bind(null, responseSchema, configMock));
       }
     }
   } catch (err) {
@@ -77,7 +81,7 @@ function generateResponse(potentialResponses, configMock) {
   }
 
   if (potentialResponses['default']) {
-    return mock.bind(null, potentialResponses['default'], configMock);
+    return generateResponse.bind(null, 200, mock.bind(null, potentialResponses['default'], configMock));
   }
 }
 
@@ -101,8 +105,8 @@ function ConfigureRouter(paths, configMock) {
         console.log('ADDING ROUTE: ', mk.toUpperCase() + ' ' + pk);
       }
 
-      var respond = generateResponse(method.responses, configMock);
-      router.addRoute('/' + mk + route, respond);
+      var builder = generateResponseBuilder(method.responses, configMock);
+      router.addRoute('/' + mk + route, builder);
     }
   }
 

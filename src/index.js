@@ -75,8 +75,10 @@ export default function(config) {
 
       try {
         const response = matchingRoute.fn();
+
+        res.statusCode = (response && response.statusCode) || 200;
         res.setHeader('Content-Type', 'application/json');
-        res.write(response !== null ? JSON.stringify(response) : '');
+        res.write((response && response.body) ? JSON.stringify(response.body) : '');
       } catch(e) {
         res.statusCode = 500;
         res.write(JSON.stringify({message: e.message}, null, 4));
