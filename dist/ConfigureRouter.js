@@ -61,7 +61,7 @@ function generateResponseBuilder(potentialResponses, configMock) {
 
       var responseSchema = potentialResponses[k];
       var responseCode = parseInt(k, 10);
-      if (responseCode > 199 && responseCode < 300) {
+      if (responseCode > 199 && responseCode < 400) {
         return generateResponse.bind(null, responseCode, mock.bind(null, responseSchema, configMock));
       }
     }
