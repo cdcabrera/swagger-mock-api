@@ -1,6 +1,6 @@
 {
   "name": "swagger-mock-api",
-  "version": "0.0.0-development",
+  "version": "0.0.0-semantically-released",
   "description": "Creates a connect middleware mock API from a Swagger 2.0 YAML file",
   "author": "dzdrazil",
   "contributors": [
@@ -29,7 +29,7 @@
     "docker": "sh ./scripts/docker.sh",
     "lint": "eslint ./src/",
     "lint:watch": "watch 'npm run lint --silent' src",
-    "semantic-release": "semantic-release pre && semantic-release post",
+    "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once",
     "start": "node app/index.js",
     "test": "npm run lint --silent; nyc --reporter=text mocha --recursive ./src",
